@@ -15,7 +15,6 @@ Students = mongo.students
 
 @app.route('/insertData', methods=['POST'])
 def insert_data():
-    print("Hello")
     try:
         # Get data from the request
         data = request.get_json()
