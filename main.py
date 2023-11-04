@@ -24,7 +24,8 @@ def insert_data():
             return jsonify({'error': 'Roll and MAC are required'}), 400
 
         # Insert data into MongoDB
-        Students.find_one_and_update({"roll": data["roll"]}, {'$set': {"mac" : get_mac_address(ip=request.remote_addr)}})
+        mac = get_mac_address(ip=request.remote_addr)
+        Students.find_one_and_update({"roll": data["roll"]}, {'$set': {"mac" : mac}})
 
         return jsonify({'message': 'Data inserted successfully'}), 200
 
