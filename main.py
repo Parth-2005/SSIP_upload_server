@@ -10,15 +10,13 @@ cities = db.cities
 
 app = Flask(__name__)
 
-@app.route('/search/<data>', methods=['POST'])
+@app.route('/search/<city>', methods=['POST'])
 def search(data):
-    #search with regex expression
-    lst = []
-    result = cities.find({"name": {"$regex": f".*{data}.*", "$options": "i"}}).limit(5)
-    for i in result:
-        del i["_id"]
-        lst.append(i)
-    return jsonify(lst)
+    city = data['city']
+    #search with regex expression ignoring accented characters
+    result = cities.find({'name': {'$regex': f'^(?i){city}$', '$options': 'i'}}).collation({'caseLevel': True, 'locale': 'en', 'strength': 1}).limit(5)
+
+    return jsonify(list(result))
 
 if __name__ == '__main__':
     app.run()
