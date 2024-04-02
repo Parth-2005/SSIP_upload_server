@@ -13,8 +13,12 @@ app = Flask(__name__)
 @app.route('/search/<data>', methods=['POST'])
 def search(data):
     #search with regex expression
+    lst = []
     result = cities.find({"name": {"$regex": f".*{data}.*", "$options": "i"}}).limit(5)
-    return jsonify(list(result))
+    for i in result:
+        del i["_id"]
+        lst.append(i)
+    return jsonify(lst)
 
 if __name__ == '__main__':
     app.run()
