@@ -11,8 +11,7 @@ cities = db.cities
 app = Flask(__name__)
 
 @app.route('/search/<city>', methods=['POST'])
-def search(data):
-    city = data['city']
+def search(city):
     #search with regex expression ignoring accented characters
     result = cities.find({'name': {'$regex': f'^(?i){city}$', '$options': 'i'}}).collation({'caseLevel': True, 'locale': 'en', 'strength': 1}).limit(5)
 
