@@ -14,7 +14,7 @@ app = Flask(__name__)
 def search(data):
     #search with regex expression
     lst = []
-    result = cities.find({"name": {"$regex": f".*{data}.*", "$options": "i"}})
+    result = cities.find({"name": {"$regex": f".*{data}.*", "$options": "i"}}).limit(5)
     for i in result:
         del i["_id"]
         lst.append(i)
